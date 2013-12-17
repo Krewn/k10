@@ -1,0 +1,76 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int y=0;
+    int snazz;snazz=1;
+    int kg;kg=0;//counts guesses
+    int guessit;
+    //find this*
+    top:snazz++;y++;//y?
+    if(0==snazz%2){guessit=42+kg;}
+    if(1==snazz%2){guessit=42-kg;}
+    int si=9;int sj=9;bool loop=1;//initial conditions//***do not goto over variable initialization***#-fpermissive
+    int i;i=guessit/10;
+    int j;j=guessit%10;
+    //within arry>
+    int guess;//only data modified by user
+    int ki;//row top 0
+    int kj;//
+    int ci;
+    int cj;
+    if(y>3){goto bot;}
+    kg=1;
+    cout << "############### Guess 0-99 ################" << endl;
+    int m[10][10];
+    for (ki=0; ki<=si; ki++)
+    {
+        for(kj=0; kj<=sj; kj++)
+        {
+            m[ki][kj]=(10*ki+kj);
+        }
+    }
+    for(ki=0; ki<10; ki++)
+    {
+        for(kj=0; kj<10; kj++)
+        {
+            cout<<m[ki][kj];if(kj<sj){cout<<"  ,  ";}
+        }cout<<endl;
+    }
+    ki=0;kj=0;si=9;sj=9;//start full 0-99
+    while(loop)//and whittle
+    {
+        here:
+        cout<<"guess "<<kg<<":";cin>>guess;cout<<endl;
+        if(guess>99||guess<0){cout<<"invaldid guess.";kg++;goto here;}
+
+        if(i<(guess/10)){si=(guess/10);}       //whittle rows from top
+        else if (i>=(guess/10)){ki=(guess/10);}//from bot
+        //else if (i==(guess/10)){kj=(guess/10);sj=(guess/10)+1;}//to a single row
+
+        if(j<(guess%10)){sj=(guess%10);}       //whittle column from bot
+        else if (j>=(guess%10)){kj=(guess%10);}//whittle column from top
+        //else if (j==(guess%10)){kj=(guess%10);sj=(guess%10)+1;}//to a single column
+
+        if(guess==guessit)
+        {
+            cout<<"Congratulations! the point is:"<<m[ki][kj];
+            loop=0;
+        }
+        else if(guess!=guessit)
+        {
+            for(ci=ki; ci<=si; ci++)
+            {
+                for (cj=kj; cj<=sj; cj++)
+                {
+                    cout<<m[ci][cj]<<"  ,  ";
+                }cout<<endl;
+            }cout<<endl;kg++;
+        }
+    }
+    goto top;
+    bot:cout<<"#third time is the charm.";if(kg==1){cout<<"+_+Snazzy+_+";}
+    return 0;
+}
